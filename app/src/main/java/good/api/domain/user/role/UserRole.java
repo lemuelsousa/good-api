@@ -1,10 +1,5 @@
 package good.api.domain.user.role;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-
-import java.util.List;
-
 public enum UserRole {
 
     USER("user"),
