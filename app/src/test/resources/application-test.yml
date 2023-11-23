@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    diver-class-name: org.H2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+api:
+  security:
+    jwt.secret-key: ${JWT_SECRET:k3nd0-9slkl-nl4kl-jn34l-ksd89-67sdf-sdg00-sdddd}
+  issuer: good.api
