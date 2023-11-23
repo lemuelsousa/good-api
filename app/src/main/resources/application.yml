@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/good_api}
+    username: postgres
+    password: postgres
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+api:
+  security:
+    jwt:
+      key: ${JWT_SECRET:k3nd0-9slkl-nl4kl-jn34l-ksd89-67sdf-sdg00-sdddd}
+      expiration: 3600
+      refresh-token:
+        expiration: 604800
+
+  issuer: good.api
+
+server:
+  port: 8000
