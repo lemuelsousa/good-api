@@ -2,13 +2,13 @@ package good.api.web.security.filter;
 
 import good.api.infrastructure.services.token.dto.TokenInput;
 import good.api.infrastructure.services.token.implementation.JWTServiceImpl;
-import good.api.infrastructure.services.user.dto.EmailInput;
 import good.api.infrastructure.services.user.implementation.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -26,15 +26,16 @@ public class SecurityFilter extends OncePerRequestFilter {
     UserServiceImpl userServiceImpl;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         final var token = recoverToken(request);
 
         if (token != null) {
             final var emailSubject = tokenService.getSubject
                     (new TokenInput(token));
 
-            final var user = userServiceImpl.loadByEmail
-                    (new EmailInput(emailSubject.subject()));
+            final var user = userServiceImpl.loadUserByUsername(emailSubject);
 
             final var authentication = new UsernamePasswordAuthenticationToken
                     (user, null, user.getAuthorities());
