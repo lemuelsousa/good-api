@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  postgres:
+  postgres_db:
     image: postgres:latest
     container_name: postgres_db
     env_file:
@@ -11,5 +11,23 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    networks:
+      - postgres_network
+
+  pg_admin:
+    image: dpage/pgadmin4
+    env_file:
+      - .env
+    ports:
+      - "44523:80"
+    depends_on:
+      - postgres_db
+    networks:
+      - postgres_network
+
 volumes:
   postgres_data:
+
+networks:
+  postgres_network:
+    driver: bridge
