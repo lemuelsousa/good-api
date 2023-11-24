@@ -4,7 +4,6 @@ import good.api.domain.user.User;
 import good.api.infrastructure.repositories.user.model.UserJpaGateway;
 import good.api.infrastructure.services.auth.AuthService;
 import good.api.infrastructure.services.auth.dto.LoginInput;
-import good.api.infrastructure.services.auth.exception.AuthException;
 import good.api.infrastructure.services.auth.exception.AuthServiceException;
 import good.api.utils.BCryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
