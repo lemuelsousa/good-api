@@ -3,7 +3,6 @@ package good.api.infrastructure.repositories.user.model;
 import good.api.domain.user.User;
 import good.api.domain.user.UserGateway;
 import good.api.infrastructure.repositories.user.UserJpaRepository;
-import good.api.infrastructure.repositories.user.excepion.UserPersistenceException;
 import good.api.infrastructure.repositories.user.model.mapper.UserToJpaModel;
 import good.api.infrastructure.repositories.user.model.mapper.JpaModelToUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,9 @@ public class UserJpaGateway implements UserGateway {
     }
 
     @Override
-    public void create(User user) {
-        userJpaRepository.save(UserToJpaModel.convert(user));
+    public User create(User user) {
+        final var save = userJpaRepository.save(UserToJpaModel.convert(user));
+        return JpaModelToUser.convert(save);
     }
 
     @Override
