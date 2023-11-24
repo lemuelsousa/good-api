@@ -7,7 +7,6 @@ import good.api.infrastructure.services.user.UserService;
 import good.api.web.controllers.auth.dto.*;
 import good.api.web.controllers.auth.dto.mapper.LoginRequestToInput;
 import good.api.web.controllers.auth.dto.mapper.SignupRequestToUserServiceInput;
-import good.api.web.controllers.auth.dto.mapper.UserToSignupResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,19 +31,17 @@ public class AuthController {
     @PostMapping("signup")
     public ResponseEntity<SignupResponse> signup(@RequestBody @Valid SignupRequest data) {
         final var user = SignupRequestToUserServiceInput.convert(data);
-        final var result = userService.register(user);
-
-        final var response = UserToSignupResponse.convert(result);
-
-        return ResponseEntity.ok(response);
+        userService.register(user);
+        return ResponseEntity.ok(new SignupResponse("Signup successful"));
     }
 
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest data) {
         final var user = authService.validate(LoginRequestToInput.convert(data));
-        final var token = tokenService.generateToken(user);
+        final var accessToken = tokenService.generateAccessToken(user);
+        final var refreshToken = tokenService.generateRefreshToken(user);
 
-        return ResponseEntity.ok(new LoginResponse(token.token()));
+        return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
     }
 
     @PostMapping("validate-token")
