@@ -11,7 +11,7 @@ public class UserServiceInputToUser implements Function<UserServiceInput, User> 
         return User.build(
                 input.name(),
                 input.email(),
-                input.passwor()
+                input.password()
         );
     }
 
