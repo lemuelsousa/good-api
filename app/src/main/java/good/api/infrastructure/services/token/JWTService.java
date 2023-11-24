@@ -1,14 +1,13 @@
 package good.api.infrastructure.services.token;
 
-import good.api.domain.user.User;
-import good.api.infrastructure.services.token.dto.TokenSubjectOutput;
 import good.api.infrastructure.services.token.dto.TokenInput;
-import good.api.infrastructure.services.token.dto.TokenOutput;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JWTService {
 
-    TokenOutput generateToken(User user);
-    TokenSubjectOutput getSubject(TokenInput token);
+    String generateAccessToken(UserDetails user);
+    String generateRefreshToken(UserDetails user);
+    String getSubject(TokenInput token);
     boolean validate(TokenInput token);
 
 }
