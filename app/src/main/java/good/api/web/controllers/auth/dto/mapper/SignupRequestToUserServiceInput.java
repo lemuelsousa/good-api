@@ -1,12 +1,15 @@
 package good.api.web.controllers.auth.dto.mapper;
 
-import good.api.domain.user.User;
 import good.api.infrastructure.services.user.dto.UserServiceInput;
 import good.api.web.controllers.auth.dto.SignupRequest;
 
 import java.util.function.Function;
 
 public class SignupRequestToUserServiceInput implements Function<SignupRequest, UserServiceInput> {
+    public static UserServiceInput convert(SignupRequest input) {
+        return new SignupRequestToUserServiceInput().apply(input);
+    }
+
     @Override
     public UserServiceInput apply(SignupRequest input) {
         return new UserServiceInput(
@@ -14,9 +17,5 @@ public class SignupRequestToUserServiceInput implements Function<SignupRequest, 
                 input.email(),
                 input.password()
         );
-    }
-
-    public static UserServiceInput convert(SignupRequest input) {
-        return new SignupRequestToUserServiceInput().apply(input);
     }
 }
